@@ -307,4 +307,76 @@ const askClear = on => { $('#clearBtn').hidden = on; $('#clearAsk').hidden = !on
 function setupOrderTexts() {
   $('#nMode').textContent = 'Modalidad: ' + MODALIDAD;
   $('#nTerm').textContent = 'Plazo estimado: ' + PLAZO;
-  $('#acceptText').innerHTML = `Entiendo que el plazo de entrega es de <strong> ${PLAZO}</strong> y puede variar segun la disponibilidad de stock.`; }
+  $('#acceptText').innerHTML = `Entiendo que los productos se entregan <b>bajo encargo</b> en un plazo estimado de <b>${PLAZO}</b>.`;
+  $('#sendBtn').innerHTML = WA(22) + ' Enviar pedido por WhatsApp';
+}
+function fillForm() {
+  Object.keys(customer).forEach(k => { const el = $(`[name="${k}"]`); if (el) el.value = customer[k]; });
+  $('#accept').checked = accepted;
+}
+
+/* =====================================================
+   EVENTOS
+   ===================================================== */
+document.addEventListener('click', e => {
+  const t = e.target.closest('button,a');
+  if (!t) return;
+  const d = t.dataset;
+  if (d.cat)    { category = d.cat; renderFilters(); renderGrid(); goCatalog(); }
+  if (d.filter) { category = d.filter; renderFilters(); renderGrid(); }
+  if (d.add)    { addToOrder(d.add); feedback(t); }
+  if (d.plus || d.minus) {
+    const o = order.find(x => x.id === +(d.plus || d.minus));
+    if (o) { o.qty = Math.max(1, o.qty + (d.plus ? 1 : -1)); if (!o.custom) o.price = unit(byId(o.id), o.qty); save(); renderCart(); }
+  }
+  if (d.del)    { order = order.filter(o => o.id !== +d.del); save(); renderCart(); }
+  if ('reset' in d) { query = ''; category = 'Todos'; $('#q').value = ''; renderFilters(); renderGrid(); }
+  if (t.id === 'cartBtn' || t.id === 'cartFab') openCart(true);
+  if (t.id === 'cartClose' || t.id === 'keepBtn') openCart(false);
+  if (t.id === 'heroBtn')  { category = 'Todos'; renderFilters(); renderGrid(); goCatalog(); }
+  if (t.id === 'clearBtn') askClear(true);
+  if (t.id === 'clearNo')  askClear(false);
+  if (t.id === 'clearYes') { order = []; accepted = false; $('#accept').checked = false; save(); renderCart(); askClear(false); showMsg(''); }
+  if (t.id === 'sendBtn')  sendOrder();
+});
+
+document.addEventListener('input', e => {
+  const t = e.target, d = t.dataset;
+  if (d.qty || d.price) {                       // cantidad o precio acordado
+    const o = rowOf(d); if (!o) return;
+    t.value = t.value.replace(/\D/g, '');       // solo dígitos
+    if (d.qty) {
+      o.qty = num(t.value);
+      if (!o.custom) { o.price = unit(byId(o.id), o.qty); $(`[data-price="${o.id}"]`).value = o.price ? fmt(o.price) : ''; }
+    } else { o.price = num(t.value); o.custom = true; }
+    t.classList.remove('invalid'); const m = t.closest('.money'); if (m) m.classList.remove('invalid');
+    save(); updateTotals();
+    return;
+  }
+  if (t.name in customer) {                     // datos del cliente
+    customer[t.name] = t.value;
+    const f = t.closest('.field'), m = f && f.querySelector('.msg'); if (f) f.classList.remove('err'); if (m) m.textContent = '';
+    save();
+  }
+  if (t.id === 'accept') { accepted = t.checked; $('#acceptBox').classList.remove('err'); save(); }
+});
+
+// Al salir del campo, se ordena el texto (25000 → 25.000)
+document.addEventListener('focusout', e => {
+  const d = e.target.dataset;
+  if (!(d.qty || d.price)) return;
+  const o = rowOf(d); if (!o) return;
+  e.target.value = d.qty ? (o.qty || '') : (o.price ? fmt(o.price) : '');
+});
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') openCart(false); });
+$('#scrim').onclick = () => openCart(false);
+$('#q').oninput = e => { query = e.target.value; renderGrid(); };
+
+/* =====================================================
+   INICIO
+   ===================================================== */
+load();
+setupStatic(); renderCategories(); renderFilters(); renderGrid();
+setupOrderTexts(); fillForm(); renderCart();
+$('#cart').inert = true;
