@@ -307,4 +307,4 @@ const askClear = on => { $('#clearBtn').hidden = on; $('#clearAsk').hidden = !on
 function setupOrderTexts() {
   $('#nMode').textContent = 'Modalidad: ' + MODALIDAD;
   $('#nTerm').textContent = 'Plazo estimado: ' + PLAZO;
-  $('#acceptText').innerHTML = `Entiendo que
+  $('#acceptText').innerHTML = `Entiendo que el plazo de entrega es de <strong> ${PLAZO}</strong> y puede variar segun la disponibilidad de stock.`; }
