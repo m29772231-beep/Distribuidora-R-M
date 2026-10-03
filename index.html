@@ -80,15 +80,35 @@
 </main>
 
 <div class="scrim" id="scrim"></div>
-<aside class="cart" id="cart" aria-label="Mi pedido">
-  <div class="cart-head"><strong>Mi pedido</strong><button type="button" id="cartClose" aria-label="Cerrar">✕</button></div>
-  <div class="cart-list" id="cartList"></div>
-  <div class="cart-foot">
-    <div class="total"><span>Total</span><strong id="cartTotal">Gs. 0</strong></div>
-    <a class="send" id="cartSend" target="_blank" rel="noopener"></a>
-  </div>
-</aside>
 
-<script src="js/app.js"></script>
-</body>
-</html>
+<aside class="cart" id="cart" role="dialog" aria-modal="true" aria-labelledby="cartTitle" aria-hidden="true">
+  <div class="cart-head"><strong id="cartTitle">Mi pedido</strong><button type="button" id="cartClose" aria-label="Cerrar pedido">✕</button></div>
+  <div class="cart-body">
+    <div id="cartList"></div>
+    <button type="button" class="ghost-btn keep" id="keepBtn">← Seguir agregando productos</button>
+
+    <div id="orderRest" hidden>
+      <div class="sum" id="cartSummary"></div>
+      <div class="notice"><strong id="nMode"></strong><span id="nTerm"></span></div>
+
+      <h3 class="form-title">Datos del negocio</h3>
+      <form id="orderForm" novalidate autocomplete="on">
+        <div class="field"><label for="f-negocio">Nombre del negocio *</label><input id="f-negocio" name="negocio" autocomplete="organization" enterkeyhint="next"><small class="msg"></small></div>
+        <div class="field"><label for="f-contacto">Nombre del cliente / contacto *</label><input id="f-contacto" name="contacto" autocomplete="name" enterkeyhint="next"><small class="msg"></small></div>
+        <div class="field"><label for="f-telefono">Teléfono *</label><input id="f-telefono" name="telefono" type="tel" inputmode="tel" autocomplete="tel" enterkeyhint="next"><small class="msg"></small></div>
+        <div class="field"><label for="f-ciudad">Ciudad *</label><input id="f-ciudad" name="ciudad" autocomplete="address-level2" enterkeyhint="next"><small class="msg"></small></div>
+        <div class="field"><label for="f-zona">Dirección o zona de entrega *</label><input id="f-zona" name="zona" autocomplete="street-address" enterkeyhint="next"><small class="msg"></small></div>
+        <div class="field"><label for="f-obs">Observaciones (opcional)</label><textarea id="f-obs" name="obs" rows="3"></textarea></div>
+      </form>
+
+      <label class="accept" id="acceptBox"><input type="checkbox" id="accept"><span id="acceptText"></span></label>
+
+      <div class="clear-row">
+        <button type="button" class="ghost-btn danger" id="clearBtn">Vaciar pedido</button>
+        <span class="clear-ask" id="clearAsk" hidden>¿Vaciar todo el pedido?
+          <button type="button" class="ghost-btn danger fill" id="clearYes">Sí, vaciar</button>
+          <button type="button" class="ghost-btn" id="clearNo">Cancelar</button></span>
+      </div>
+    </div>
+  </div>
+  <div
