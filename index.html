@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Catálogo mayorista</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<main>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="Inicio"><span class="brand-mark" id="brandMark"></span><span id="brandName"></span></a>
+    <nav aria-label="Navegación principal">
+      <a href="#catalogo">Productos</a>
+      <a href="#categorias">Categorías</a>
+      <a id="chLink" target="_blank" rel="noopener">Canal de WhatsApp</a>
+    </nav>
+    <button class="cart-button" id="cartBtn" type="button" aria-label="Abrir pedido">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l1 12H5L6 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>
+      <span>Mi pedido</span><b id="cartCount">0</b>
+    </button>
+  </header>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <div class="eyebrow"><span></span>Novedades al por mayor</div>
+      <h1>Lo que tu negocio necesita,<em> al por mayor.</em></h1>
+      <p>Tecnología, hogar, belleza y calzado con precio especial desde 3 unidades. Armá tu pedido y envialo directo por WhatsApp.</p>
+      <div class="hero-actions">
+        <button type="button" id="heroBtn">Ver catálogo <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <span id="heroCount"></span>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-image"><img id="heroImg" alt="Producto destacado"></div>
+      <div class="floating-product">
+        <img id="fpImg" alt="">
+        <div><small>Destacado</small><strong id="fpName"></strong><span id="fpPrice"></span></div>
+      </div>
+      <span class="spark spark-one">✦</span><span class="spark spark-two">✦</span>
+    </div>
+  </section>
+
+  <section class="category-strip" id="categorias" aria-label="Categorías"></section>
+
+  <section class="catalog" id="catalogo">
+    <div class="section-heading">
+      <div><span class="kicker">Nuestra selección</span><h2>Productos destacados</h2></div>
+      <div class="catalog-tools">
+        <label class="search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>
+          <input id="q" type="search" placeholder="Buscar productos">
+        </label>
+        <div class="filters" id="filters" aria-label="Filtrar productos"></div>
+      </div>
+    </div>
+    <div id="grid"></div>
+  </section>
+
+  <section class="benefits">
+    <div><strong>Precio por mayor</strong><span>Desde 3 unidades</span></div>
+    <div><strong>Pedido por WhatsApp</strong><span>Armá tu pedido y envialo</span></div>
+    <div><strong>Nuevos ingresos</strong><span>Novedades y reposición</span></div>
+    <div><strong>Canal de WhatsApp</strong><span>Seguí las novedades</span></div>
+  </section>
+
+  <div class="fab-group">
+    <button class="cart-fab" id="cartFab" type="button" aria-label="Ver mi pedido">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l1 12H5L6 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>
+      <b id="cartFabCount">0</b>
+    </button>
+    <a class="whatsapp-button" id="waFloat" target="_blank" rel="noopener" aria-label="Consultar por WhatsApp"><span id="waFloatIc"></span><span>¿Te ayudamos?</span></a>
+  </div>
+
+  <footer>
+    <a class="brand footer-brand" href="#"><span class="brand-mark" id="brandMark2"></span><span class="brand-name2"></span></a>
+    <p>Precios en guaraníes · Sujetos a stock y a cambios sin previo aviso.</p>
+    <span id="year"></span>
+  </footer>
+</main>
+
+<div class="scrim" id="scrim"></div>
+<aside class="cart" id="cart" aria-label="Mi pedido">
+  <div class="cart-head"><strong>Mi pedido</strong><button type="button" id="cartClose" aria-label="Cerrar">✕</button></div>
+  <div class="cart-list" id="cartList"></div>
+  <div class="cart-foot">
+    <div class="total"><span>Total</span><strong id="cartTotal">Gs. 0</strong></div>
+    <a class="send" id="cartSend" target="_blank" rel="noopener"></a>
+  </div>
+</aside>
+
+<script src="js/app.js"></script>
+</body>
+</html>
