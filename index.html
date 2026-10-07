@@ -76,10 +76,14 @@
     <a class="brand footer-brand" href="#"><span class="brand-mark" id="brandMark2"></span><span class="brand-name2"></span></a>
     <p>Precios en guaraníes · Sujetos a stock y a cambios sin previo aviso.</p>
     <span id="year"></span>
+    <button type="button" class="admin-link" id="adminOpen" aria-label="Administrar catálogo">Administrar catálogo</button>
   </footer>
 </main>
 
 <div class="scrim" id="scrim"></div>
+<div class="detail" id="detail"></div>
+<div class="admin" id="admin" hidden></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <aside class="cart" id="cart" role="dialog" aria-modal="true" aria-labelledby="cartTitle" aria-hidden="true">
   <div class="cart-head"><strong id="cartTitle">Mi pedido</strong><button type="button" id="cartClose" aria-label="Cerrar pedido">✕</button></div>
   <div class="cart-body">
@@ -117,6 +121,8 @@
   </div>
 </aside>
 
+<script src="js/store.js"></script>
 <script src="js/app.js"></script>
+<script src="js/admin.js"></script>
 </body>
 </html>
