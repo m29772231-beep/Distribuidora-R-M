@@ -166,11 +166,19 @@ const Store = (() => {
   }
   async function ghTest(cfg) {
     const base = `/repos/${cfg.owner}/${cfg.repo}`;
-    const repo = await gh(cfg, base);
-    if (repo.permissions && repo.permissions.push === false) throw new Error('El token solo puede leer. Necesita el permiso "Contents: Read and write".');
-    await gh(cfg, `${base}/git/ref/heads/${cfg.branch}`);
-    return true;
+    const me = await gh(cfg, '/user');                       // 401 aquí = la clave no es válida
+    let repo;
+    try { repo = await gh(cfg, base); }
+    catch (e) {
+      if (e.status === 404) { const x = new Error(`El token es válido (usuario ${me.login}), pero no encuentro el repositorio «${cfg.owner}/${cfg.repo}». Revisá cómo está escrito y que el token tenga acceso a ese repositorio (Repository access).`); x.status = 404; throw x; }
+      throw e;
+    }
+    if (repo.permissions && repo.permissions.push === false) throw new Error('El token solo puede leer. Necesita el permiso "Contents: Read and write" (o el alcance "public_repo" si es un token clásico).');
+    try { await gh(cfg, `${base}/git/ref/heads/${cfg.branch}`); }
+    catch (e) { if (e.status === 404) throw new Error(`No encuentro la rama «${cfg.branch}». Revisá el nombre de la rama (normalmente es «main»).`); throw e; }
+    return me.login;
   }
+
   // Un solo commit con las fotos nuevas y data/catalogo.json (GitHub Pages se actualiza solo)
   async function ghPublish(cfg, list, progress = () => {}, retry = true) {
     const base = `/repos/${cfg.owner}/${cfg.repo}`, { images, json } = await prepare(list);

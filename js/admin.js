@@ -78,13 +78,25 @@
       console.error(e); pub = { kind: 'err', text: 'No se pudo publicar: ' + e.message + ' Tocá «Publicar ahora» para reintentar.' }; toast('No se pudo publicar.', 'err');
     } finally { busy = false; refreshStatus(); if (again) { again = false; schedulePublish(); } }
   }
+  // Limpia lo pegado: quita espacios, saltos de línea y texto extra antes o después del token
+  function cleanToken(raw) {
+    const s = String(raw).replace(/[^\x21-\x7E]/g, '');
+    const m = s.match(/github_pat_[A-Za-z0-9_]+|gh[pousr]_[A-Za-z0-9]+/);
+    return m ? m[0] : s;
+  }
+  const tokenInfo = tk => `Se envió un token de ${tk.length} caracteres que empieza con «${tk.slice(0, tk.startsWith('github_pat_') ? 11 : 4)}». Debería tener unos 93 si es «github_pat_…» (o 40 si empieza con «ghp_»).`;
   async function ghSave() {
-    const v = id => $('#' + id).value.trim(), m = $('#ghMsg');
-    const cfg = { owner: v('ghOwner'), repo: v('ghRepo'), branch: v('ghBranch') || 'main', token: v('ghToken') || (ghCfg && ghCfg.token) || '' };
+    const v = id => $('#' + id).value.trim(), m = $('#ghMsg'), raw = $('#ghToken').value;
+    const token = raw.trim() ? cleanToken(raw) : (ghCfg && ghCfg.token) || '';
+    const cfg = { owner: v('ghOwner'), repo: v('ghRepo'), branch: v('ghBranch') || 'main', token };
     if (!cfg.owner || !cfg.repo || !cfg.token) { m.textContent = 'Completá el usuario, el repositorio y el token.'; return; }
+    if (raw.trim() && !/^(github_pat_|gh[pousr]_)/.test(token)) {
+      m.textContent = `Lo que pegaste empieza con «${token.slice(0, 6)}» y no parece un token de GitHub. Tiene que empezar con «github_pat_» (o «ghp_» si es clásico). Copialo con el botón de copiar que aparece al generarlo.`; return;
+    }
     m.textContent = 'Probando la conexión…';
-    try { await Store.ghTest(cfg); } catch (e) { m.textContent = e.message; return; }
-    ghCfg = cfg; Store.ghSet(cfg); ghOpen = false; pub = null; toast('GitHub conectado ✓ Publicando tu catálogo…'); renderList(); publishNow();
+    try { var login = await Store.ghTest(cfg); }
+    catch (e) { m.textContent = e.message + (e.status === 401 ? ' ' + tokenInfo(token) : ''); return; }
+    ghCfg = cfg; Store.ghSet(cfg); ghOpen = false; pub = null; toast(`GitHub conectado como ${login} ✓ Publicando tu catálogo…`); renderList(); publishNow();
   }
 
   /* ---------- abrir / cerrar ---------- */
@@ -151,18 +163,20 @@
           <strong>Publicar automáticamente con GitHub</strong>
           <p class="adm-note">Se hace una sola vez. Después, cada producto que guardes se publica solo y tus clientes lo ven en 1 o 2 minutos.</p>
           <ol class="adm-steps">
-            <li>Abrí <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a> (entrá a tu cuenta si te lo pide).</li>
-            <li>Nombre: «Catalogo». Elegí el vencimiento que quieras.</li>
-            <li>En <b>Repository access</b> elegí <b>Only select repositories</b> y marcá tu repositorio.</li>
-            <li>En <b>Permissions → Repository permissions</b> poné <b>Contents: Read and write</b>.</li>
-            <li>Tocá <b>Generate token</b>, copiá el código (empieza con <code>github_pat_</code>) y pegalo abajo.</li>
+            <li>Abrí <a href="https://github.com/settings/tokens/new" target="_blank" rel="noopener">github.com/settings/tokens/new</a> (token clásico, el más simple; entrá a tu cuenta si te lo pide).</li>
+            <li>Nota: «Catalogo». Vencimiento: 90 días o el que prefieras.</li>
+            <li>Marcá solamente el alcance <b>public_repo</b> (si tu repositorio es privado, marcá <b>repo</b>).</li>
+            <li>Tocá <b>Generate token</b> y copiá el código con el botón de copiar (empieza con <code>ghp_</code>). Se muestra una sola vez.</li>
+            <li>Pegalo abajo y tocá <b>Guardar y probar conexión</b>.</li>
           </ol>
+          <p class="adm-note">Alternativa más restringida: un token «fine-grained» (<code>github_pat_…</code>) con acceso solo a tu repositorio y el permiso <b>Contents: Read and write</b>.</p>
           <div class="adm-grid">
             <div class="field"><label for="ghOwner">Usuario de GitHub</label><input id="ghOwner" value="${esc((ghCfg && ghCfg.owner) || Store.ghGuess().owner || GITHUB_OWNER)}" autocomplete="off"></div>
             <div class="field"><label for="ghRepo">Repositorio</label><input id="ghRepo" value="${esc((ghCfg && ghCfg.repo) || Store.ghGuess().repo || GITHUB_REPO)}" autocomplete="off"></div>
             <div class="field"><label for="ghBranch">Rama</label><input id="ghBranch" value="${esc((ghCfg && ghCfg.branch) || GITHUB_BRANCH)}" autocomplete="off"></div>
-            <div class="field"><label for="ghToken">Token ${ghCfg ? '(ya guardado; dejalo vacío para conservarlo)' : ''}</label><input id="ghToken" type="password" autocomplete="off" placeholder="github_pat_…"></div>
+            <div class="field"><label for="ghToken">Token ${ghCfg ? '(ya guardado; dejalo vacío para conservarlo)' : ''}</label><input id="ghToken" name="gh-token-catalogo" type="password" autocomplete="new-password" autocapitalize="off" spellcheck="false" placeholder="github_pat_… o ghp_…"></div>
           </div>
+          <label class="adm-check"><input type="checkbox" id="ghShow"> Mostrar el token para revisarlo</label>
           <small class="msg" id="ghMsg"></small>
           <label class="adm-check"><input type="checkbox" id="ghAuto" ${autoOn() ? 'checked' : ''}> Publicar automáticamente al guardar</label>
           <div class="adm-btns"><button type="button" class="ghost-btn okbtn" data-act="ghSave">Guardar y probar conexión</button>
@@ -426,6 +440,7 @@
   root.addEventListener('change', e => {
     const t = e.target;
     if (t.id === 'imgFile') { addFiles([...t.files]); t.value = ''; }
+    if (t.id === 'ghShow') $('#ghToken').type = t.checked ? 'text' : 'password';
     if (t.id === 'ghAuto') { localStorage.setItem(AUTO_KEY, t.checked ? '1' : '0'); refreshStatus(); }
     if (t.id === 'impFile' && t.files[0]) { importFile(t.files[0]); t.value = ''; }
     if (view === 'form' && t.closest('#pf')) {
