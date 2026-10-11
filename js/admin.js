@@ -6,7 +6,9 @@
 (() => {
   const MAX_IMGS = 6, PIN_KEY = 'catalogo_pin', SESSION_KEY = 'catalogo_admin_ok';
   const root = $('#admin');
-  let view = 'list', f = null, filterText = '', pinOpen = false, pvTimer = 0;
+  const DIRTY_KEY = 'catalogo_dirty', AUTO_KEY = 'catalogo_auto';
+  let view = 'list', f = null, filterText = '', pinOpen = false, ghOpen = false, pvTimer = 0;
+  let ghCfg = Store.ghGet(), pub = null, busy = false, again = false, pubTimer = 0;   // pub = aviso de publicación en curso o con error
 
   /* ---------- utilidades ---------- */
   const today = () => new Date().toISOString().slice(0, 10);
@@ -44,8 +46,45 @@
     try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (e) {}
   }
   async function commit(fn, okMsg) {
-    try { await ensureLocal(); await fn(); sortCatalog(P); renderAll(); if (okMsg) toast(okMsg); return true; }
-    catch (e) { console.error(e); toast('No se pudo guardar en este navegador. Revisá que no estés en una ventana privada.', 'err'); return false; }
+    try { await ensureLocal(); await fn(); sortCatalog(P); renderAll(); markDirty(); if (okMsg) toast(okMsg); return true; }
+    catch (e) { console.error(e); toast('No se pudo guardar: ' + (e && e.message ? e.message : e), 'err'); return false; }
+  }
+
+  /* ---------- publicar para los clientes (GitHub) ---------- */
+  const autoOn = () => localStorage.getItem(AUTO_KEY) !== '0';
+  const isDirty = () => localStorage.getItem(DIRTY_KEY) === '1';
+  function statusNow() {
+    if (pub) return pub;
+    if (!ghCfg) return { kind: 'warn', text: 'Por ahora los cambios solo los ves vos. Tocá «Conectar GitHub» (una sola vez) para que tus clientes los vean automáticamente.' };
+    if (isDirty()) return { kind: 'warn', text: autoOn() ? 'Hay cambios sin publicar. Se publicarán solos en unos segundos.' : 'Hay cambios sin publicar. Tocá «Publicar ahora».' };
+    return { kind: 'ok', text: '✓ Publicado: tus clientes ven este catálogo (los cambios nuevos pueden tardar 1 o 2 minutos en aparecer).' };
+  }
+  function refreshStatus() { const el = $('#pubStatus'); if (!el) return; const s = statusNow(); el.className = 'adm-status ' + s.kind; el.textContent = s.text; }
+  function markDirty() { localStorage.setItem(DIRTY_KEY, '1'); pub = null; if (ghCfg && autoOn()) schedulePublish(); refreshStatus(); }
+  const schedulePublish = () => { clearTimeout(pubTimer); pubTimer = setTimeout(() => publishNow(true), 1800); };
+  async function publishNow(auto = false) {
+    if (!ghCfg) {
+      if (!auto) { ghOpen = true; if (view === 'list') { const b = $('#ghBox'); if (b) { b.hidden = false; b.scrollIntoView({ behavior: 'smooth', block: 'center' }); } } toast('Primero conectá GitHub (se hace una sola vez).', 'info'); }
+      return;
+    }
+    if (busy) { again = true; return; }
+    busy = true; clearTimeout(pubTimer);
+    try {
+      pub = { kind: 'info', text: 'Publicando…' }; refreshStatus();
+      const r = await Store.ghPublish(ghCfg, P, text => { pub = { kind: 'info', text }; refreshStatus(); });
+      localStorage.setItem(DIRTY_KEY, '0'); pub = null;
+      toast(r.changed ? 'Publicado ✓ Tus clientes lo verán en 1 o 2 minutos.' : 'Ya estaba publicado ✓');
+    } catch (e) {
+      console.error(e); pub = { kind: 'err', text: 'No se pudo publicar: ' + e.message + ' Tocá «Publicar ahora» para reintentar.' }; toast('No se pudo publicar.', 'err');
+    } finally { busy = false; refreshStatus(); if (again) { again = false; schedulePublish(); } }
+  }
+  async function ghSave() {
+    const v = id => $('#' + id).value.trim(), m = $('#ghMsg');
+    const cfg = { owner: v('ghOwner'), repo: v('ghRepo'), branch: v('ghBranch') || 'main', token: v('ghToken') || (ghCfg && ghCfg.token) || '' };
+    if (!cfg.owner || !cfg.repo || !cfg.token) { m.textContent = 'Completá el usuario, el repositorio y el token.'; return; }
+    m.textContent = 'Probando la conexión…';
+    try { await Store.ghTest(cfg); } catch (e) { m.textContent = e.message; return; }
+    ghCfg = cfg; Store.ghSet(cfg); ghOpen = false; pub = null; toast('GitHub conectado ✓ Publicando tu catálogo…'); renderList(); publishNow();
   }
 
   /* ---------- abrir / cerrar ---------- */
@@ -94,16 +133,41 @@
     root.innerHTML = `<div class="adm-sheet">
       <div class="adm-head"><strong>Administrar catálogo</strong><button type="button" class="adm-x" data-act="close" aria-label="Cerrar">✕</button></div>
       <div class="adm-body">
-        <div class="adm-info"><b>Los cambios se guardan en este navegador.</b> Para que tus clientes los vean en la web, usá
-        <b>Publicar en la web</b> y subí el archivo a GitHub. Hacé una <b>copia de seguridad</b> de vez en cuando.</div>
+        <div class="adm-info"><b>Tus cambios se guardan en este navegador.</b> Conectá GitHub una vez y cada producto que guardes se
+        publica solo para tus clientes. Hacé una <b>copia de seguridad</b> de vez en cuando.</div>
+        <div class="adm-status" id="pubStatus"></div>
         <div class="adm-tools">
           <button type="button" class="send" data-act="new">+ NUEVO PRODUCTO</button>
-          <button type="button" class="ghost-btn" data-act="publish">Publicar en la web</button>
+          <button type="button" class="ghost-btn okbtn" data-act="publishNow">Publicar ahora</button>
+          <button type="button" class="ghost-btn" data-act="gh">${ghCfg ? 'GitHub ✓' : 'Conectar GitHub'}</button>
           <button type="button" class="ghost-btn" data-act="export">Exportar catálogo</button>
           <button type="button" class="ghost-btn" data-act="import">Importar catálogo</button>
+          <button type="button" class="ghost-btn" data-act="zip">Descargar paquete (.zip)</button>
           <button type="button" class="ghost-btn" data-act="pin">PIN</button>
           <button type="button" class="ghost-btn danger" data-act="reset">Volver a lo publicado</button>
           <input type="file" id="impFile" accept="application/json,.json" hidden>
+        </div>
+        <div id="ghBox" class="adm-pin" ${ghOpen ? '' : 'hidden'}>
+          <strong>Publicar automáticamente con GitHub</strong>
+          <p class="adm-note">Se hace una sola vez. Después, cada producto que guardes se publica solo y tus clientes lo ven en 1 o 2 minutos.</p>
+          <ol class="adm-steps">
+            <li>Abrí <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a> (entrá a tu cuenta si te lo pide).</li>
+            <li>Nombre: «Catalogo». Elegí el vencimiento que quieras.</li>
+            <li>En <b>Repository access</b> elegí <b>Only select repositories</b> y marcá tu repositorio.</li>
+            <li>En <b>Permissions → Repository permissions</b> poné <b>Contents: Read and write</b>.</li>
+            <li>Tocá <b>Generate token</b>, copiá el código (empieza con <code>github_pat_</code>) y pegalo abajo.</li>
+          </ol>
+          <div class="adm-grid">
+            <div class="field"><label for="ghOwner">Usuario de GitHub</label><input id="ghOwner" value="${esc((ghCfg && ghCfg.owner) || Store.ghGuess().owner || GITHUB_OWNER)}" autocomplete="off"></div>
+            <div class="field"><label for="ghRepo">Repositorio</label><input id="ghRepo" value="${esc((ghCfg && ghCfg.repo) || Store.ghGuess().repo || GITHUB_REPO)}" autocomplete="off"></div>
+            <div class="field"><label for="ghBranch">Rama</label><input id="ghBranch" value="${esc((ghCfg && ghCfg.branch) || GITHUB_BRANCH)}" autocomplete="off"></div>
+            <div class="field"><label for="ghToken">Token ${ghCfg ? '(ya guardado; dejalo vacío para conservarlo)' : ''}</label><input id="ghToken" type="password" autocomplete="off" placeholder="github_pat_…"></div>
+          </div>
+          <small class="msg" id="ghMsg"></small>
+          <label class="adm-check"><input type="checkbox" id="ghAuto" ${autoOn() ? 'checked' : ''}> Publicar automáticamente al guardar</label>
+          <div class="adm-btns"><button type="button" class="ghost-btn okbtn" data-act="ghSave">Guardar y probar conexión</button>
+            ${ghCfg ? '<button type="button" class="ghost-btn danger" data-act="ghOff">Desconectar</button>' : ''}</div>
+          <p class="adm-note">El token se guarda solo en este navegador y solo permite modificar este repositorio. No lo uses en computadoras compartidas; si lo perdés, borralo desde la misma página de GitHub.</p>
         </div>
         <div id="pinBox" class="adm-pin" ${pinOpen ? '' : 'hidden'}>
           <div class="field"><label for="pinNew">${localStorage.getItem(PIN_KEY) ? 'Cambiar PIN' : 'Crear un PIN'} (4 a 8 números)</label>
@@ -116,7 +180,7 @@
         <input class="adm-search" id="admQ" type="search" placeholder="Buscar en la lista" value="${esc(filterText)}" aria-label="Buscar producto">
         <div class="adm-list" id="admList"></div>
       </div></div>`;
-    renderRows(); updateUsage();
+    renderRows(); updateUsage(); refreshStatus();
   }
   async function updateUsage() {
     try { const e = await navigator.storage.estimate(), el = $('#usage'); if (el && e.usage) el.textContent = ` · Espacio usado: ${(e.usage / 1048576).toFixed(1)} MB`; } catch (e) {}
@@ -170,6 +234,7 @@
         <div class="adm-pv" id="pv"></div>
 
         <div class="adm-actions">
+          <div class="form-msg" id="saveMsg" role="alert" hidden></div>
           <button type="button" class="ghost-btn" data-act="cancel">Cancelar</button>
           <button type="button" class="send" data-act="saveProduct">GUARDAR PRODUCTO</button>
         </div>
@@ -235,8 +300,25 @@
     const m = root.querySelector(`[data-msg="${name}"]`); if (!m) return;
     m.textContent = text; m.closest('.field').classList.add('err');
   }
+  const showSave = text => { const m = $('#saveMsg'); if (m) { m.textContent = text; m.hidden = !text; } };
+  const LABELS = { n: 'Nombre', u: 'Precio unitario', m: 'Precio por mayor', c: 'Categoría', img: 'Imagen (subí al menos una)' };
+
   async function saveProduct() {
-    $$('#pf .err').forEach(e => e.classList.remove('err')); $$('#pf [data-msg]').forEach(e => e.textContent = ''); $('#imgMsg').textContent = '';
+    const btn = root.querySelector('[data-act="saveProduct"]');
+    try {
+      if (btn) { btn.disabled = true; btn.textContent = 'GUARDANDO…'; }
+      await doSave();
+    } catch (e) {                       // cualquier error inesperado se muestra en pantalla
+      console.error(e);
+      showSave('No se pudo guardar: ' + (e && e.message ? e.message : e));
+      toast('No se pudo guardar el producto.', 'err');
+    } finally {
+      const b = root.querySelector('[data-act="saveProduct"]');
+      if (b) { b.disabled = false; b.textContent = 'GUARDAR PRODUCTO'; }
+    }
+  }
+  async function doSave() {
+    $$('#pf .err').forEach(e => e.classList.remove('err')); $$('#pf [data-msg]').forEach(e => e.textContent = ''); $('#imgMsg').textContent = ''; showSave('');
     const d = draft(), errs = [];
     if (val('n').trim().length < 2) { setErr('n', 'Escribí el nombre del producto.'); errs.push('n'); }
     if (d.u < 1) { setErr('u', 'Ingresá el precio unitario.'); errs.push('u'); }
@@ -244,6 +326,7 @@
     if (!val('c').trim()) { setErr('c', 'Elegí o escribí una categoría.'); errs.push('c'); }
     if (!f.imgs.length) { $('#imgMsg').textContent = 'Subí al menos una imagen.'; errs.push('img'); }
     if (errs.length) {
+      showSave('Falta completar: ' + errs.map(k => LABELS[k]).join(', ') + '.');
       toast('Revisá los campos marcados en rojo.', 'err');
       const el = errs[0] === 'img' ? $('#imgMsg') : root.querySelector(`[name="${errs[0]}"]`);
       el.scrollIntoView({ behavior: 'smooth', block: 'center' }); if (el.focus && errs[0] !== 'img') el.focus({ preventScroll: true });
@@ -256,7 +339,7 @@
       await Store.put(p);
       const i = P.findIndex(x => x.id === p.id); if (i >= 0) P[i] = p; else P.push(p);
     }, adding ? 'Producto agregado al catálogo ✓' : 'Cambios guardados ✓');
-    if (ok) renderList();
+    if (ok) renderList(); else showSave('No se pudo guardar en este navegador. Revisá que no estés en una ventana privada y que haya espacio disponible.');
   }
   async function toggle(id) {
     const p = P.find(x => x.id === id); if (!p) return;
@@ -287,11 +370,11 @@
     r.onerror = () => toast('No se pudo leer el archivo.', 'err');
     r.readAsText(file);
   }
-  function publish() {
+  async function downloadZip() {
     try {
-      const { blob, fotos } = Store.buildPublishZip(P);
+      const { blob, fotos } = await Store.buildPublishZip(P);
       download(blob, `catalogo-publicar-${today()}.zip`);
-      ask('Paquete descargado ✓', `Descomprimí el zip y subí a tu repositorio de GitHub la carpeta "data" (catalogo.json) y las ${fotos} foto(s) nuevas de la carpeta "img", conservando las que ya tenés. Cuando GitHub Pages se actualice, todos tus clientes verán el catálogo nuevo.`, 'Entendido', null, false);
+      ask('Paquete descargado ✓', `Descomprimí el zip y copiá la carpeta "data" (catalogo.json) y las ${fotos} foto(s) nuevas de "img" a tu proyecto; luego subilo a GitHub. Si conectás GitHub, todo esto se hace solo.`, 'Entendido', null, false);
     } catch (e) { toast('No se pudo crear el paquete.', 'err'); }
   }
   function resetPublished() {
@@ -318,7 +401,11 @@
     if (a === 'del') remove(id);
     if (a === 'export') exportBackup();
     if (a === 'import') $('#impFile').click();
-    if (a === 'publish') publish();
+    if (a === 'publishNow') publishNow();
+    if (a === 'zip') downloadZip();
+    if (a === 'gh') { ghOpen = !ghOpen; $('#ghBox').hidden = !ghOpen; if (ghOpen) $('#ghBox').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    if (a === 'ghSave') ghSave();
+    if (a === 'ghOff') { Store.ghSet(null); ghCfg = null; ghOpen = false; pub = null; toast('GitHub desconectado'); renderList(); }
     if (a === 'reset') resetPublished();
     if (a === 'pin') { pinOpen = !pinOpen; $('#pinBox').hidden = !pinOpen; }
     if (a === 'pinSave') savePin();
@@ -339,6 +426,7 @@
   root.addEventListener('change', e => {
     const t = e.target;
     if (t.id === 'imgFile') { addFiles([...t.files]); t.value = ''; }
+    if (t.id === 'ghAuto') { localStorage.setItem(AUTO_KEY, t.checked ? '1' : '0'); refreshStatus(); }
     if (t.id === 'impFile' && t.files[0]) { importFile(t.files[0]); t.value = ''; }
     if (view === 'form' && t.closest('#pf')) {
       if (t.name === 'u' || t.name === 'm') t.value = t.value ? fmt(num(t.value)) : '';
@@ -353,6 +441,7 @@
     if (t.dataset.fi !== undefined) { const row = f.feats[+t.dataset.fi]; if ('fk' in t.dataset) row.k = t.value; else row.v = t.value; }
     if (['u', 'm', 'q'].includes(t.name)) t.value = digits(t.value);
     const fld = t.closest('.field'); if (fld) fld.classList.remove('err');
+    showSave('');
     clearTimeout(pvTimer); pvTimer = setTimeout(refreshPreview, 150);
   });
   root.addEventListener('submit', e => e.preventDefault());

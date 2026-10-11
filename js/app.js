@@ -6,6 +6,9 @@ const BRAND   = "Distribuidora R&M";                  // nombre de tu negocio
 const MODALIDAD = "Pedido bajo encargo";    // se muestra al cliente y en el mensaje
 const PLAZO     = "7 días hábiles";         // plazo estimado de entrega
 const CHANNEL = "https://whatsapp.com/channel/0029Vb99nG6KLaHsRjPhEu2n";
+const GITHUB_OWNER = "m29772231-beep";   // tu usuario de GitHub (solo precarga el formulario del administrador)
+const GITHUB_REPO  = "Distribuidora-R-M";  // nombre de tu repositorio
+const GITHUB_BRANCH = "main";               // rama donde se publica la página
 const HERO_ID = 0;        // producto cuya foto va grande en la portada (su id)
 const FEATURED_ID = 7;    // producto "Destacado" de la portada (su id)
 

@@ -107,22 +107,95 @@ const Store = (() => {
   }
   const bytesOf = dataUrl => { const bin = atob(dataUrl.split(',')[1]), u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return u; };
 
-  // Fotos nuevas (data:) → archivos img/nID-N.ext ; las que ya están en img/ se dejan igual
-  const buildPublishZip = list => {
-    const files = [], productos = list.map(p => ({
-      ...p,
-      imgs: p.imgs.map((s, k) => {
-        if (!s.startsWith('data:')) return s;
-        const ext = s.startsWith('data:image/png') ? 'png' : s.startsWith('data:image/webp') ? 'webp' : 'jpg';
-        const name = `img/n${p.id}-${k + 1}.${ext}`;
-        files.push({ name, data: bytesOf(s) });
-        return name;
-      })
-    }));
-    const json = JSON.stringify({ app: 'catalogo-distribuidora', version: 1, publicado: new Date().toISOString(), productos }, null, 1);
-    files.unshift({ name: 'data/catalogo.json', data: new TextEncoder().encode(json) });
-    return { blob: makeZip(files), fotos: files.length - 1 };
+  /* ---------- Archivos a publicar (los usan el .zip y la publicación con GitHub) ---------- */
+  const extOf = s => s.startsWith('data:image/png') ? 'png' : s.startsWith('data:image/webp') ? 'webp' : 'jpg';
+  const shortHash = async s => {
+    if (window.crypto && crypto.subtle) {
+      const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+      return [...new Uint8Array(b)].slice(0, 4).map(x => x.toString(16).padStart(2, '0')).join('');
+    }
+    let h = 5381; for (let i = 0; i < s.length; i += 7) h = ((h * 33) ^ s.charCodeAt(i)) >>> 0; return h.toString(16).padStart(8, '0');
+  };
+  // Fotos nuevas (data:) → archivos img/nID-N-hash.ext ; las que ya están en img/ se dejan igual.
+  // El nombre incluye una huella de la foto: si la foto no cambia, no se vuelve a subir.
+  async function prepare(list) {
+    const images = [], productos = [];
+    for (const p of list) {
+      const imgs = [];
+      for (let k = 0; k < p.imgs.length; k++) {
+        const s = p.imgs[k];
+        if (!s.startsWith('data:')) { imgs.push(s); continue; }
+        const path = `img/n${p.id}-${k + 1}-${await shortHash(s)}.${extOf(s)}`;
+        images.push({ path, dataUrl: s }); imgs.push(path);
+      }
+      productos.push({ ...p, imgs });
+    }
+    const json = JSON.stringify({ app: 'catalogo-distribuidora', version: 1, productos }, null, 1);
+    return { images, json };
+  }
+  const buildPublishZip = async list => {
+    const { images, json } = await prepare(list);
+    const files = [{ name: 'data/catalogo.json', data: new TextEncoder().encode(json) }, ...images.map(i => ({ name: i.path, data: bytesOf(i.dataUrl) }))];
+    return { blob: makeZip(files), fotos: images.length };
   };
 
-  return { all, put, putMany, del, clear, hasLocal, markLocal, normalize, exportBackup, parseBackup, buildPublishZip };
+  /* ---------- Publicar con GitHub (API de tu propio repositorio, sin servidor) ---------- */
+  const GH_KEY = 'catalogo_github';
+  const ghGet = () => { try { return JSON.parse(localStorage.getItem(GH_KEY) || 'null'); } catch (e) { return null; } };
+  const ghSet = c => c ? localStorage.setItem(GH_KEY, JSON.stringify(c)) : localStorage.removeItem(GH_KEY);
+  const ghGuess = () => {     // si la página está en GitHub Pages, se deduce usuario y repositorio de la dirección
+    const m = location.hostname.match(/^([^.]+)\.github\.io$/), repo = location.pathname.split('/')[1] || '';
+    return { owner: m ? m[1] : '', repo: m && repo && !repo.includes('.') ? repo : '' };
+  };
+  const ghErr = (status, msg) => {
+    const m = { 0: 'No hay conexión con GitHub. Revisá tu internet.',
+      401: 'El token no es válido o ya venció. Creá uno nuevo.',
+      403: 'GitHub no permitió la operación. Revisá que el token tenga el permiso "Contents: Read and write" sobre este repositorio.',
+      404: 'No encontré el repositorio o la rama, o el token no tiene acceso a ese repositorio.',
+      409: 'GitHub tuvo un conflicto. Probá de nuevo.', 422: 'GitHub rechazó los cambios (conflicto). Probá de nuevo.' };
+    const e = new Error(m[status] || `Error de GitHub (${status}). ${msg || ''}`.trim()); e.status = status; return e;
+  };
+  async function gh(cfg, path, opt = {}) {
+    let r;
+    try {
+      r = await fetch('https://api.github.com' + path, { method: opt.method || 'GET', body: opt.body ? JSON.stringify(opt.body) : undefined,
+        headers: { Authorization: 'Bearer ' + cfg.token, Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', ...(opt.body ? { 'Content-Type': 'application/json' } : {}) } });
+    } catch (e) { throw ghErr(0); }
+    if (!r.ok) { let msg = ''; try { msg = (await r.json()).message || ''; } catch (e) {} throw ghErr(r.status, msg); }
+    return r.json();
+  }
+  async function ghTest(cfg) {
+    const base = `/repos/${cfg.owner}/${cfg.repo}`;
+    const repo = await gh(cfg, base);
+    if (repo.permissions && repo.permissions.push === false) throw new Error('El token solo puede leer. Necesita el permiso "Contents: Read and write".');
+    await gh(cfg, `${base}/git/ref/heads/${cfg.branch}`);
+    return true;
+  }
+  // Un solo commit con las fotos nuevas y data/catalogo.json (GitHub Pages se actualiza solo)
+  async function ghPublish(cfg, list, progress = () => {}, retry = true) {
+    const base = `/repos/${cfg.owner}/${cfg.repo}`, { images, json } = await prepare(list);
+    progress('Conectando con GitHub…');
+    const headSha = (await gh(cfg, `${base}/git/ref/heads/${cfg.branch}`)).object.sha;
+    const treeSha = (await gh(cfg, `${base}/git/commits/${headSha}`)).tree.sha;
+    const have = new Map((await gh(cfg, `${base}/git/trees/${treeSha}?recursive=1`)).tree.map(x => [x.path, x.sha]));
+    const fresh = images.filter(i => !have.has(i.path)), entries = [];
+    let n = 0;
+    for (const im of fresh) {
+      progress(`Subiendo fotos (${++n} de ${fresh.length})…`);
+      const b = await gh(cfg, `${base}/git/blobs`, { method: 'POST', body: { content: im.dataUrl.split(',')[1], encoding: 'base64' } });
+      entries.push({ path: im.path, mode: '100644', type: 'blob', sha: b.sha });
+    }
+    progress('Guardando el catálogo…');
+    const jb = await gh(cfg, `${base}/git/blobs`, { method: 'POST', body: { content: json, encoding: 'utf-8' } });
+    if (!entries.length && have.get('data/catalogo.json') === jb.sha) return { changed: false, fotos: 0 };
+    entries.push({ path: 'data/catalogo.json', mode: '100644', type: 'blob', sha: jb.sha });
+    const nt = await gh(cfg, `${base}/git/trees`, { method: 'POST', body: { base_tree: treeSha, tree: entries } });
+    const nc = await gh(cfg, `${base}/git/commits`, { method: 'POST', body: { message: 'Actualizo el catálogo desde el administrador', tree: nt.sha, parents: [headSha] } });
+    try { await gh(cfg, `${base}/git/refs/heads/${cfg.branch}`, { method: 'PATCH', body: { sha: nc.sha } }); }
+    catch (e) { if (retry && e.status === 422) return ghPublish(cfg, list, progress, false); throw e; }   // alguien subió algo mientras tanto
+    return { changed: true, fotos: fresh.length };
+  }
+
+  return { all, put, putMany, del, clear, hasLocal, markLocal, normalize, exportBackup, parseBackup, buildPublishZip,
+           ghGet, ghSet, ghGuess, ghTest, ghPublish };
 })();
