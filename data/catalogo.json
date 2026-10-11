@@ -1,0 +1,831 @@
+{
+ "app": "catalogo-distribuidora",
+ "version": 1,
+ "productos": [
+  {
+   "id": 1791564487102,
+   "n": "LLAVERO",
+   "u": 8000,
+   "m": 5000,
+   "q": 3,
+   "c": "Accesorios",
+   "t": "Nuevo",
+   "nt": "",
+   "sku": "JGTE18465",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1791564487102-1-f11380ca.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T16:48:07.101Z",
+   "md": "2026-10-09T16:48:07.101Z"
+  },
+  {
+   "id": 1791564355667,
+   "n": "PERCHA DE PLASTICO 41.5CMX20CM",
+   "u": 12000,
+   "m": 8000,
+   "q": 3,
+   "c": "Hogar",
+   "t": "Nuevo",
+   "nt": "CAJA CERRADA 40PCS",
+   "sku": "SA21096",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1791564355667-1-34596b61.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T16:45:55.667Z",
+   "md": "2026-10-09T16:45:55.667Z"
+  },
+  {
+   "id": 1791564241248,
+   "n": "SOMBRERO CON CUERDA",
+   "u": 29000,
+   "m": 23500,
+   "q": 3,
+   "c": "Accesorios",
+   "t": "Nuevo",
+   "nt": "CAJA CERRADA 15PCS",
+   "sku": "MK-2280",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1791564241248-1-8cec56dd.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T16:44:01.248Z",
+   "md": "2026-10-09T16:44:01.248Z"
+  },
+  {
+   "id": 1791563349593,
+   "n": "PULVERIZADOR CON DOS BATERIAS",
+   "u": 180000,
+   "m": 150000,
+   "q": 3,
+   "c": "Hogar",
+   "t": "Nuevo",
+   "nt": "CAJA CERRADA 10PCS",
+   "sku": "LW25905",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1791563349593-1-899452e3.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T16:29:09.593Z",
+   "md": "2026-10-09T16:29:09.593Z"
+  },
+  {
+   "id": 1791563251839,
+   "n": "ZAPATILLA CON DISEÑO 4 COLORES",
+   "u": 32000,
+   "m": 27000,
+   "q": 3,
+   "c": "Calzado",
+   "t": "Nuevo",
+   "nt": "CAJA CERRADA DE 12PCS",
+   "sku": "SA27454",
+   "ds": "",
+   "dl": "",
+   "f": [
+    {
+     "k": "Tamaño",
+     "v": "CALCES 30-31/ 32-33/ 34-35"
+    }
+   ],
+   "imgs": [
+    "img/n1791563251839-1-8ec9d864.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T16:27:31.839Z",
+   "md": "2026-10-09T16:27:31.839Z"
+  },
+  {
+   "id": 1791563061440,
+   "n": "MASARILLA FACIAL 30MLX 10PCS",
+   "u": 44000,
+   "m": 36700,
+   "q": 3,
+   "c": "Belleza",
+   "t": "Nuevo",
+   "nt": "",
+   "sku": "PS3085",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1791563061440-1-ee16662d.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T16:24:21.440Z",
+   "md": "2026-10-09T16:24:21.440Z"
+  },
+  {
+   "id": 1791562958911,
+   "n": "PEINE PARA CABELLO",
+   "u": 16000,
+   "m": 12000,
+   "q": 3,
+   "c": "Belleza",
+   "t": "Nuevo",
+   "nt": "",
+   "sku": "OM16420",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1791562958911-1-3be6b218.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T16:22:38.911Z",
+   "md": "2026-10-09T16:22:38.911Z"
+  },
+  {
+   "id": 1791562886076,
+   "n": "KIT PARA FIESTA DE REVELACION",
+   "u": 72000,
+   "m": 60000,
+   "q": 3,
+   "c": "Accesorios",
+   "t": "Nuevo",
+   "nt": "CAJA CERRADA 10PCS",
+   "sku": "SA27413",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1791562886076-1-dff31a87.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T16:21:26.076Z",
+   "md": "2026-10-09T16:21:26.076Z"
+  },
+  {
+   "id": 1791562760054,
+   "n": "LIP GLOW",
+   "u": 10000,
+   "m": 8500,
+   "q": 3,
+   "c": "Belleza",
+   "t": "Nuevo",
+   "nt": "",
+   "sku": "HF196",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1791562760054-1-1a77289d.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T16:19:20.054Z",
+   "md": "2026-10-09T16:19:20.054Z"
+  },
+  {
+   "id": 1791562549625,
+   "n": "ESPONJA DE SILICONA PARA MAQUILLAJE",
+   "u": 12500,
+   "m": 10700,
+   "q": 3,
+   "c": "Belleza",
+   "t": "Nuevo",
+   "nt": "",
+   "sku": "A268",
+   "ds": "APLICADOR DE BASE",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1791562549625-1-d8d6aa9b.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T16:15:49.625Z",
+   "md": "2026-10-09T16:15:49.625Z"
+  },
+  {
+   "id": 1791562445646,
+   "n": "MOCHILA INFANTIL METALIZADO",
+   "u": 42000,
+   "m": 35500,
+   "q": 3,
+   "c": "Accesorios",
+   "t": "",
+   "nt": "",
+   "sku": "OM20280",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1791562445646-1-44b6dfb2.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T16:14:05.646Z",
+   "md": "2026-10-09T16:14:05.646Z"
+  },
+  {
+   "id": 1791562359900,
+   "n": "MINI LICUADORA 380ML",
+   "u": 30000,
+   "m": 26000,
+   "q": 3,
+   "c": "Hogar",
+   "t": "Reposición",
+   "nt": "",
+   "sku": "SA24299",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1791562359900-1-15d5590e.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T16:12:39.900Z",
+   "md": "2026-10-09T16:12:39.900Z"
+  },
+  {
+   "id": 1791562292148,
+   "n": "NECESER 21CMX15CMX13CM",
+   "u": 30000,
+   "m": 22000,
+   "q": 3,
+   "c": "Accesorios",
+   "t": "Reposición",
+   "nt": "",
+   "sku": "M48868",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1791562292148-1-ffe7eaa4.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T16:11:32.148Z",
+   "md": "2026-10-09T16:11:32.148Z"
+  },
+  {
+   "id": 1791562121050,
+   "n": "MALETA DE  10KG✈️",
+   "u": 162000,
+   "m": 137000,
+   "q": 3,
+   "c": "Accesorios",
+   "t": "",
+   "nt": "",
+   "sku": "BST-1107",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1791562121050-1-3eb29334.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T16:08:41.049Z",
+   "md": "2026-10-09T16:08:41.049Z"
+  },
+  {
+   "id": 1791561981132,
+   "n": "ANAFE MIXTO EMPOTRABLE - GAS + ELECTRICO",
+   "u": 722000,
+   "m": 652000,
+   "q": 3,
+   "c": "Hogar",
+   "t": "",
+   "nt": "",
+   "sku": "EL-1004",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1791561981132-1-5726a88e.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T16:06:21.132Z",
+   "md": "2026-10-09T16:06:21.132Z"
+  },
+  {
+   "id": 1791561848035,
+   "n": "CARGADOR 10W TC/2USB/USB-C ECOPOWER",
+   "u": 17000,
+   "m": 12500,
+   "q": 3,
+   "c": "Tecnología",
+   "t": "",
+   "nt": "",
+   "sku": "EP-7043",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1791561848035-1-6db41993.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T16:04:08.035Z",
+   "md": "2026-10-09T16:04:08.035Z"
+  },
+  {
+   "id": 0,
+   "n": "Cocina infrarrojo Maxstar MS-02P/S",
+   "u": 152000,
+   "m": 127000,
+   "q": 3,
+   "c": "Hogar",
+   "t": "Nuevo",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/p0.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T15:49:34.781Z",
+   "md": "2026-10-09T15:49:34.782Z"
+  },
+  {
+   "id": 1,
+   "n": "Protector solar SPF 50 HB611",
+   "u": 32000,
+   "m": 25000,
+   "q": 3,
+   "c": "Belleza",
+   "t": "Nuevo",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/p1.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T15:49:34.782Z",
+   "md": "2026-10-09T15:49:34.782Z"
+  },
+  {
+   "id": 2,
+   "n": "Linterna LED USB Dux MJ-616",
+   "u": 26000,
+   "m": 22000,
+   "q": 3,
+   "c": "Tecnología",
+   "t": "",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/p2.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T15:49:34.782Z",
+   "md": "2026-10-09T15:49:34.782Z"
+  },
+  {
+   "id": 4,
+   "n": "Cartera para dama 22×13×7 cm M51510",
+   "u": 55000,
+   "m": 45000,
+   "q": 3,
+   "c": "Accesorios",
+   "t": "",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/p4.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T15:49:34.782Z",
+   "md": "2026-10-09T15:49:34.782Z"
+  },
+  {
+   "id": 5,
+   "n": "Neceser 26×15×9 cm M51535",
+   "u": 33000,
+   "m": 25000,
+   "q": 3,
+   "c": "Accesorios",
+   "t": "",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/p5.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T15:49:34.782Z",
+   "md": "2026-10-09T15:49:34.782Z"
+  },
+  {
+   "id": 6,
+   "n": "Desmaquillante 25 pcs AL25-PY",
+   "u": 15000,
+   "m": 10000,
+   "q": 3,
+   "c": "Belleza",
+   "t": "",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/p6.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T15:49:34.782Z",
+   "md": "2026-10-09T15:49:34.782Z"
+  },
+  {
+   "id": 7,
+   "n": "Auricular Newest M10 V5.3",
+   "u": 42000,
+   "m": 33000,
+   "q": 3,
+   "c": "Tecnología",
+   "t": "Reposición",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/p7.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T15:49:34.782Z",
+   "md": "2026-10-09T15:49:34.782Z"
+  },
+  {
+   "id": 8,
+   "n": "Pinza de ceja, tira de 12 pcs N°9936-1",
+   "u": 14000,
+   "m": 12000,
+   "q": 3,
+   "c": "Belleza",
+   "t": "Reposición",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/p8.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T15:49:34.782Z",
+   "md": "2026-10-09T15:49:34.782Z"
+  },
+  {
+   "id": 9,
+   "n": "Reloj Smart Watch GUS-14 Ultra 3",
+   "u": 50000,
+   "m": 42000,
+   "q": 3,
+   "c": "Tecnología",
+   "t": "Reposición",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/p9.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T15:49:34.782Z",
+   "md": "2026-10-09T15:49:34.782Z"
+  },
+  {
+   "id": 10,
+   "n": "Reloj Smart D20",
+   "u": 27000,
+   "m": 22000,
+   "q": 3,
+   "c": "Tecnología",
+   "t": "Reposición",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/p10.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T15:49:34.782Z",
+   "md": "2026-10-09T15:49:34.782Z"
+  },
+  {
+   "id": 11,
+   "n": "Cargador Samsung USB-C 25W original (sin cable)",
+   "u": 92000,
+   "m": 83000,
+   "q": 3,
+   "c": "Tecnología",
+   "t": "Reposición",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/p11.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T15:49:34.782Z",
+   "md": "2026-10-09T15:49:34.782Z"
+  },
+  {
+   "id": 12,
+   "n": "Kit termo 2500 ml Maxstar M02",
+   "u": 107000,
+   "m": 95000,
+   "q": 3,
+   "c": "Hogar",
+   "t": "Reposición",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/p12.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T15:49:34.782Z",
+   "md": "2026-10-09T15:49:34.782Z"
+  },
+  {
+   "id": 13,
+   "n": "Billetera para dama 19×10×3 cm M50245",
+   "u": 25000,
+   "m": 20000,
+   "q": 3,
+   "c": "Accesorios",
+   "t": "Nuevo",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/p13.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T15:49:34.782Z",
+   "md": "2026-10-09T15:49:34.782Z"
+  },
+  {
+   "id": 14,
+   "n": "Zapatilla adulto 4 colores, calces 40 al 45 surtidos SA27434",
+   "u": 30000,
+   "m": 23500,
+   "q": 3,
+   "c": "Calzado",
+   "t": "Nuevo",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/p14.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T15:49:34.782Z",
+   "md": "2026-10-09T15:49:34.782Z"
+  },
+  {
+   "id": 15,
+   "n": "Crocs 4 colores, calces 36-37 / 40-41 surtidos MK-2400",
+   "u": 30000,
+   "m": 25500,
+   "q": 3,
+   "c": "Calzado",
+   "t": "Nuevo",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/p15.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T15:49:34.782Z",
+   "md": "2026-10-09T15:49:34.782Z"
+  },
+  {
+   "id": 16,
+   "n": "Crocs infantil 4 colores, calces 30 al 35 SA23245",
+   "u": 23500,
+   "m": 19750,
+   "q": 3,
+   "c": "Calzado",
+   "t": "Nuevo",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/p16.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T15:49:34.782Z",
+   "md": "2026-10-09T15:49:34.782Z"
+  },
+  {
+   "id": 17,
+   "n": "Aspiradora portátil AS-228 M45697",
+   "u": 44000,
+   "m": 37000,
+   "q": 3,
+   "c": "Hogar",
+   "t": "Nuevo",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/p17.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T15:49:34.782Z",
+   "md": "2026-10-09T15:49:34.782Z"
+  },
+  {
+   "id": 18,
+   "n": "Zapatilla adulto 3 colores, calces 36 al 41 SA27473",
+   "u": 43000,
+   "m": 35500,
+   "q": 3,
+   "c": "Calzado",
+   "t": "Nuevo",
+   "nt": "₲ 30.000 desde 18 unidades",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/p18.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T15:49:34.782Z",
+   "md": "2026-10-09T15:49:34.782Z"
+  },
+  {
+   "id": 19,
+   "n": "Zapatilla adulto 4 colores, calces 36 al 41 SA27463",
+   "u": 41700,
+   "m": 34500,
+   "q": 3,
+   "c": "Calzado",
+   "t": "Nuevo",
+   "nt": "₲ 30.000 desde 18 unidades",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/p19.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T15:49:34.782Z",
+   "md": "2026-10-09T15:49:34.782Z"
+  },
+  {
+   "id": 20,
+   "n": "Letrero LED Abierto/Cerrado MK-2150",
+   "u": 92000,
+   "m": 79500,
+   "q": 2,
+   "c": "Hogar",
+   "t": "Nuevo",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/p20.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T15:49:34.782Z",
+   "md": "2026-10-09T15:49:34.782Z"
+  },
+  {
+   "id": 21,
+   "n": "Vaso con abridor 500 ml Maxstar M04 con diseño",
+   "u": 36000,
+   "m": 28500,
+   "q": 3,
+   "c": "Hogar",
+   "t": "Nuevo",
+   "nt": "Caja cerrada de 75 pcs",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/p21.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T15:49:34.782Z",
+   "md": "2026-10-09T15:49:34.782Z"
+  },
+  {
+   "id": 22,
+   "n": "Licuadora Bigstar 220V 2 en 1 BSP1251",
+   "u": 116000,
+   "m": 99700,
+   "q": 3,
+   "c": "Hogar",
+   "t": "",
+   "nt": "Caja cerrada de 10 pcs",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/p22.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T15:49:34.782Z",
+   "md": "2026-10-09T15:49:34.782Z"
+  },
+  {
+   "id": 23,
+   "n": "Jarra kit 2 L con diseño 68 oz",
+   "u": 105000,
+   "m": 90600,
+   "q": 3,
+   "c": "Hogar",
+   "t": "",
+   "nt": "Caja cerrada de 16 pcs",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/p23.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T15:49:34.782Z",
+   "md": "2026-10-09T15:49:34.782Z"
+  },
+  {
+   "id": 24,
+   "n": "Jarra eléctrica 2 L 220V BSP-1145/S",
+   "u": 56000,
+   "m": 39700,
+   "q": 3,
+   "c": "Hogar",
+   "t": "",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/p24.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T15:49:34.782Z",
+   "md": "2026-10-09T15:49:34.782Z"
+  },
+  {
+   "id": 25,
+   "n": "Kit de manicura 12 pcs M49168",
+   "u": 28000,
+   "m": 25000,
+   "q": 3,
+   "c": "Belleza",
+   "t": "Nuevo",
+   "nt": "Caja cerrada de 12 pcs",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/p25.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-09T15:49:34.782Z",
+   "md": "2026-10-09T15:49:34.782Z"
+  }
+ ]
+}
