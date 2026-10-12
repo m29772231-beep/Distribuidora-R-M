@@ -29,12 +29,12 @@
     let h = 5381; for (const c of s) h = ((h * 33) ^ c.charCodeAt(0)) >>> 0; return 'x' + h.toString(16);
   }
   // Cuadro de confirmación dentro del diseño (sin alert del navegador)
-  function ask(title, text, okLabel, onOk, danger = true) {
+  function ask(title, text, okLabel, onOk, danger = true, host = root) {
     const b = document.createElement('div'); b.className = 'adm-ask';
     b.innerHTML = `<div class="adm-ask-box" role="alertdialog"><strong>${esc(title)}</strong><p>${esc(text)}</p>
       <div class="adm-ask-btns">${onOk ? '<button type="button" class="ghost-btn" data-no>Cancelar</button>' : ''}
       <button type="button" class="ghost-btn ${danger ? 'danger fill' : 'okbtn'}" data-ok>${esc(okLabel)}</button></div></div>`;
-    root.appendChild(b);
+    host.appendChild(b);
     b.querySelector('[data-ok]').onclick = async () => { b.remove(); if (onOk) await onOk(); };
     if (onOk) b.querySelector('[data-no]').onclick = () => b.remove();
   }
@@ -150,6 +150,7 @@
         <div class="adm-status" id="pubStatus"></div>
         <div class="adm-tools">
           <button type="button" class="send" data-act="new">+ NUEVO PRODUCTO</button>
+          <button type="button" class="send alt" data-act="prov">PEDIDOS AL PROVEEDOR</button>
           <button type="button" class="ghost-btn okbtn" data-act="publishNow">Publicar ahora</button>
           <button type="button" class="ghost-btn" data-act="gh">${ghCfg ? 'GitHub ✓' : 'Conectar GitHub'}</button>
           <button type="button" class="ghost-btn" data-act="export">Exportar catálogo</button>
@@ -409,6 +410,7 @@
     const a = b.dataset.act, id = +b.dataset.id, k = +b.dataset.k;
     if (a === 'close') close();
     if (a === 'new') renderForm(null);
+    if (a === 'prov') { if (typeof Provider !== 'undefined') Provider.open(); else toast('Falta subir el archivo js/proveedor.js', 'err'); }
     if (a === 'edit') renderForm(P.find(x => x.id === id));
     if (a === 'cancel') renderList();
     if (a === 'toggle') toggle(id);
@@ -462,7 +464,7 @@
   root.addEventListener('submit', e => e.preventDefault());
   root.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id === 'pinIn') { e.preventDefault(); root.querySelector('[data-act="pinGo"]').click(); } });
   document.addEventListener('keydown', e => {
-    if (e.key !== 'Escape' || root.hidden || root.querySelector('.adm-ask')) return;
+    if (e.key !== 'Escape' || root.hidden || root.querySelector('.adm-ask') || ($('#prov') && !$('#prov').hidden)) return;
     if (view === 'form') renderList(); else close();
   });
 
@@ -470,4 +472,5 @@
   const checkHash = () => { if (location.hash === '#admin' && root.hidden) open(); };
   window.addEventListener('hashchange', checkHash);
   document.addEventListener('catalogo:listo', checkHash);
+  window.AdminUI = { toast, ask, download };   // lo usa el módulo «Pedidos al proveedor»
 })();

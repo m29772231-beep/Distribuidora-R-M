@@ -80,7 +80,7 @@ const img0 = p => p.imgs[0] || PLACEHOLDER;  // la primera imagen es la principa
 const sortCatalog = l => l.sort((a, b) => (b.id > 1e9) - (a.id > 1e9) || (a.id > 1e9 ? b.id - a.id : a.id - b.id));
 const byId = id => P.find(p => p.id === +id);
 const syncScroll = () => { document.body.style.overflow =
-  ($('#cart').classList.contains('open') || $('#detail').classList.contains('open') || !$('#admin').hidden) ? 'hidden' : ''; };
+  ($('#cart').classList.contains('open') || $('#detail').classList.contains('open') || !$('#admin').hidden || !$('#prov').hidden) ? 'hidden' : ''; };
 
 // Prioridad: 1) lo editado en este navegador  2) data/catalogo.json publicado  3) productos base
 async function loadCatalog() {
