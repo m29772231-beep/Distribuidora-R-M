@@ -3,6 +3,26 @@
  "version": 1,
  "productos": [
   {
+   "id": 1792357648968,
+   "n": "Speaker Ecopower",
+   "u": 117000,
+   "m": 100000,
+   "q": 3,
+   "c": "Tecnología",
+   "t": "Nuevo",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1792357648968-1-65938755.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-18T21:07:28.968Z",
+   "md": "2026-10-18T21:07:28.968Z"
+  },
+  {
    "id": 1792357581837,
    "n": "Exhibidor p/ 44 lentes con espejo giratorio",
    "u": 385000,
