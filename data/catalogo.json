@@ -3,6 +3,26 @@
  "version": 1,
  "productos": [
   {
+   "id": 1792356210950,
+   "n": "Reloj Smart Mibro whatch C4",
+   "u": 257000,
+   "m": 227000,
+   "q": 3,
+   "c": "Tecnología",
+   "t": "",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1792356210950-1-98a465a6.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-18T20:43:30.950Z",
+   "md": "2026-10-18T20:43:30.950Z"
+  },
+  {
    "id": 1792356145424,
    "n": "Reloj Smart Audisat X6 Pro",
    "u": 172000,
