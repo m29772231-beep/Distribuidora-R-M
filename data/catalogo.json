@@ -3,6 +3,26 @@
  "version": 1,
  "productos": [
   {
+   "id": 1792356434807,
+   "n": "Cargador Portátil  33000mah",
+   "u": 143000,
+   "m": 123000,
+   "q": 3,
+   "c": "Tecnología",
+   "t": "Nuevo",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1792356434807-1-b5c81774.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-18T20:47:14.807Z",
+   "md": "2026-10-18T20:47:14.807Z"
+  },
+  {
    "id": 1792356345320,
    "n": "Reloj Smart Audisat X5 Pro",
    "u": 172000,
