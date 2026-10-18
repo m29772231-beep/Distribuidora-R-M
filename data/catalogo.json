@@ -3,6 +3,26 @@
  "version": 1,
  "productos": [
   {
+   "id": 1792357581837,
+   "n": "Exhibidor p/ 44 lentes con espejo giratorio",
+   "u": 385000,
+   "m": 385000,
+   "q": 3,
+   "c": "Accesorios",
+   "t": "Nuevo",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1792357581837-1-f0034045.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-18T21:06:21.837Z",
+   "md": "2026-10-18T21:06:21.837Z"
+  },
+  {
    "id": 1792357518263,
    "n": "Soldador VCP 200A",
    "u": 585000,
