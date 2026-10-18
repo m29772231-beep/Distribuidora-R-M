@@ -3,6 +3,26 @@
  "version": 1,
  "productos": [
   {
+   "id": 1792357225255,
+   "n": "Silla Mor y Conservadora 12L Soprano",
+   "u": 95000,
+   "m": 95000,
+   "q": 3,
+   "c": "Hogar",
+   "t": "",
+   "nt": "La silla es precio aparte de la conservadora",
+   "sku": "",
+   "ds": "precio de la conservadora: 73000 precio único",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1792357225255-1-c04131ba.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-18T21:00:25.255Z",
+   "md": "2026-10-18T21:00:25.255Z"
+  },
+  {
    "id": 1792357028830,
    "n": "Colchoneta de aire 2 plazas",
    "u": 173000,
