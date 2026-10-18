@@ -3,6 +3,26 @@
  "version": 1,
  "productos": [
   {
+   "id": 1792355573064,
+   "n": "Cabezal tipo C",
+   "u": 32000,
+   "m": 24000,
+   "q": 3,
+   "c": "Tecnología",
+   "t": "Reposición",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1792355573064-1-b89daadd.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-18T20:32:53.064Z",
+   "md": "2026-10-18T20:32:53.064Z"
+  },
+  {
    "id": 1792355497195,
    "n": "Cargador iPhone 20W",
    "u": 37000,
