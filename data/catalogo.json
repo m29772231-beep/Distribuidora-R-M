@@ -3,6 +3,26 @@
  "version": 1,
  "productos": [
   {
+   "id": 1792356726977,
+   "n": "Linterna solar",
+   "u": 73000,
+   "m": 53000,
+   "q": 3,
+   "c": "Accesorios",
+   "t": "Nuevo",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1792356726977-1-43bfade2.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-18T20:52:06.977Z",
+   "md": "2026-10-18T20:52:06.977Z"
+  },
+  {
    "id": 1792356639539,
    "n": "Cortador Nasal",
    "u": 53000,
