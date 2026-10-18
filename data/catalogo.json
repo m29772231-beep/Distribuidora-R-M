@@ -3,6 +3,26 @@
  "version": 1,
  "productos": [
   {
+   "id": 1792356852870,
+   "n": "Auricular inalambrico",
+   "u": 105000,
+   "m": 85000,
+   "q": 3,
+   "c": "Tecnología",
+   "t": "Nuevo",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1792356852870-1-057075ee.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-10-18T20:54:12.870Z",
+   "md": "2026-10-18T20:54:12.870Z"
+  },
+  {
    "id": 1792356789897,
    "n": "Alfombra para auto",
    "u": 113000,
