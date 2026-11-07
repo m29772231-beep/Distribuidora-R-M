@@ -3,6 +3,26 @@
  "version": 1,
  "productos": [
   {
+   "id": 1794021458559,
+   "n": "Camara de Reversa",
+   "u": 216000,
+   "m": 175500,
+   "q": 3,
+   "c": "Tecnología",
+   "t": "",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1794021458559-1-addeec5f.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-11-07T03:17:38.559Z",
+   "md": "2026-11-07T03:17:38.559Z"
+  },
+  {
    "id": 1794021380942,
    "n": "Soporte para tv fijo de 26a63' ✅️",
    "u": 33500,
