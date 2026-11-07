@@ -3,6 +3,26 @@
  "version": 1,
  "productos": [
   {
+   "id": 1794020308924,
+   "n": "Estilete Económico tira de 10 unidades",
+   "u": 32500,
+   "m": 23000,
+   "q": 3,
+   "c": "Hogar",
+   "t": "",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1794020308924-1-c2802d4f.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-11-07T02:58:28.924Z",
+   "md": "2026-11-07T02:58:28.924Z"
+  },
+  {
    "id": 1794020141203,
    "n": "Pila alkalina 8 AA +4 AAA",
    "u": 30000,
