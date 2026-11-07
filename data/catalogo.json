@@ -3,6 +3,26 @@
  "version": 1,
  "productos": [
   {
+   "id": 1794020043451,
+   "n": "Resistencia para ducha",
+   "u": 26500,
+   "m": 19500,
+   "q": 3,
+   "c": "Hogar",
+   "t": "",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1794020043451-1-0c10bf03.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-11-07T02:54:03.451Z",
+   "md": "2026-11-07T02:54:03.451Z"
+  },
+  {
    "id": 1794019918997,
    "n": "Cepillo de Dientes  Económico",
    "u": 29000,
