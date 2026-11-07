@@ -3,6 +3,26 @@
  "version": 1,
  "productos": [
   {
+   "id": 1794020461273,
+   "n": "inversor de corriente para auto de 150W",
+   "u": 90000,
+   "m": 70000,
+   "q": 3,
+   "c": "Tecnología",
+   "t": "",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1794020461273-1-7316d796.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-11-07T03:01:01.273Z",
+   "md": "2026-11-07T03:01:01.273Z"
+  },
+  {
    "id": 1794020308924,
    "n": "Estilete Económico tira de 10 unidades",
    "u": 32500,
