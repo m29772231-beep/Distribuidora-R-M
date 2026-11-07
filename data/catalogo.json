@@ -3,6 +3,26 @@
  "version": 1,
  "productos": [
   {
+   "id": 1794019564834,
+   "n": "CORTA PELO PROFESIONAL 819-4 MANGO DE METAL",
+   "u": 48000,
+   "m": 37500,
+   "q": 3,
+   "c": "Tecnología",
+   "t": "",
+   "nt": "",
+   "sku": "",
+   "ds": "",
+   "dl": "",
+   "f": [],
+   "imgs": [
+    "img/n1794019564834-1-17e9f57c.jpg"
+   ],
+   "st": "activo",
+   "cr": "2026-11-07T02:46:04.834Z",
+   "md": "2026-11-07T02:46:04.834Z"
+  },
+  {
    "id": 1794019465348,
    "n": "Pendrive Ecopower de 16Gb",
    "u": 57500,
